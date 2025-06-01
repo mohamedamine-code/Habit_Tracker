@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:note_app_02/compontent/MyDrawer.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
@@ -12,6 +13,7 @@ class _HomepageState extends State<Homepage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
+      drawer: Mydrawer(),
     );
   }
 }

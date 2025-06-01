@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme:LightMode,
+      theme:Provider.of<ThemeProvider>(context).Mode,
       home: Homepage());
   }
 }
