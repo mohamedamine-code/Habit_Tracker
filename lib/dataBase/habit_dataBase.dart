@@ -4,12 +4,14 @@ import 'package:note_app_02/compontent/app_setting.dart';
 import 'package:note_app_02/compontent/habit.dart';
 import 'package:path_provider/path_provider.dart';
 
+
 class HabitDatabase extends ChangeNotifier {
   static late Isar isar;
 
   // initialize - dataBase
 
   static Future<void> initialize() async {
+
     final dir = await getApplicationDocumentsDirectory();
     isar = await Isar.open([
       AppSettingSchema,
@@ -44,6 +46,6 @@ class HabitDatabase extends ChangeNotifier {
     final settings= await isar.appSettings.where().findFirst();
     return settings?.FirstlanchDate;
   }
-  
+
 
 }
