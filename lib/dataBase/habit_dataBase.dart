@@ -42,10 +42,72 @@ class HabitDatabase extends ChangeNotifier {
   }
 
   // get the first date for app startup
+
   Future <DateTime?> getFirstLanchDate()async{
     final settings= await isar.appSettings.where().findFirst();
     return settings?.FirstlanchDate;
   }
 
+  // List ofntsHabir habit
+  List<Habit> currentHabit=[];
 
+  // Creat a new habit
+  Future<void> addHabit(String name) async{
+    //create a habit
+    final newHabit = Habit()..name=name;
+    // save to the database
+    await isar.writeTxn(()=>isar.habits.put(newHabit));
+    //re-red from the DB
+    re_read();
+  }
+
+
+  // read a habit 
+  Future <void> re_read() async{
+    //fetch all the habit from the data base 
+    List<Habit> fetchHabit= await isar.habits.where().findAll();
+
+    // give to cuurent habit list 
+    currentHabit.clear();
+    currentHabit.addAll(fetchHabit);
+
+    //rebuid UI
+    notifyListeners();
+  }
+
+  //updated - check habit on or off
+  Future <void>updatedHabitCompletion(int id, bool isComplted) async{
+    // find the sepcif habit
+    final habit = await isar.habits.get(id);
+
+    // update completion status
+    if(habit!=null){
+      await isar.writeTxn(()async{
+        // if the habit is complted and the date not in the compltedDays ==> addeted
+        if(isComplted && !habit.compltedDays.contains(DateTime.now())){
+          // date of today
+          final today=DateTime.now();
+          // add to the compltedDays of the habit
+          habit.compltedDays.add(
+            DateTime(
+              today.day,
+              today.month,
+              today.year,
+
+            )
+          );
+
+        } else{
+
+        }
+      });
+    }
+  }
+
+  //y.contains(x)==> checkek if the x is in y or not ?
+
+  
+  //updated - edit habit name
+
+  //deltae habit 
 }
