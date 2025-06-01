@@ -9,11 +9,22 @@ class Mydrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      backgroundColor:Theme.of(context).colorScheme.surface,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       child: Center(
-        child: CupertinoSwitch(value: context.watch<ThemeProvider>().isDarkMode, onChanged: (value){
-          return context.read<ThemeProvider>().ToggleTheme();
-        }),
+        child: CupertinoSwitch(
+          // this proprety take a bool so you need to crate a function return 
+          // a bool value in your provider  
+          
+          value: context.read<ThemeProvider>().isDarkMode,
+
+          // this is the function which change the mode 
+          onChanged: (value) {
+            // .read ==> To just read without rebuild Widget or
+            // """"" to just change state !!!"""" 
+            //.watch ==> To read and rebuild Widget (rebuild is obilgatoire) 
+            context.read<ThemeProvider>().ToggleTheme();
+          },
+        ),
       ),
     );
   }

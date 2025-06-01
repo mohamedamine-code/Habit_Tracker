@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:note_app_02/Theme/Theme_dark.dart';
-import 'package:note_app_02/Theme/Theme_light.dart';
+import 'package:note_app_02/dataBase/habit_dataBase.dart';
 import 'package:note_app_02/models/theme_provider.dart';
 import 'package:note_app_02/pages/HomePage.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  // initialize the dataBase
+  await HabitDatabase.initialize();
+  await HabitDatabase().saveFirstlanchDate();
   runApp(ChangeNotifierProvider(create: (_) => ThemeProvider(),child: MyApp(),));
 }
 
@@ -15,7 +18,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme:Provider.of<ThemeProvider>(context).Mode,
+      // initale the mode of app from the provider Theme , use this "Provider.of<ThemeProvider>(context).Mode"
+      // or this "context.watch<ThemeProvider>().Mode"
+      // you should use .watch ==> it rebuild the UI
+      // When you use .read ==> it just read value and not do any modification !!! 
+      // does not listen to change .
+      theme: context.watch<ThemeProvider>().Mode,
       home: Homepage());
   }
 }
